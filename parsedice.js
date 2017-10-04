@@ -2,6 +2,8 @@ function dice(dices, faces){
     dices = parseInt(dices)
     faces = parseInt(faces)
 
+    if(dices > 1000000) return
+
     let result = []
     for(let i=0;i<dices;i++) result.push(Math.ceil(Math.random() * faces))
     let total = 0
@@ -26,7 +28,6 @@ module.exports = (e) => {
     let pat = faces.indexOf('+')
     let reply = ""
     if(pat !== -1){
-    console.log('meow')
         let offset = faces.substr(pat+1, faces.length)
         faces = faces.substr(0, pat)
 
@@ -35,13 +36,15 @@ module.exports = (e) => {
         offset = parseInt(offset)
 
         let dicedata = dice(dices, faces)
-        reply = str + ' : \n[ ' + dicedata[0].toString() + ' ] + ' + offset + ' -> ' + (dicedata[1] + offset)
+        if(dices < 50) reply = str + ' :\n[ ' + dicedata[0].toString() + ' ] + ' + offset + ' -> ' + (dicedata[1] + offset)
+        else reply = str + ' :\n' + dicedata[1] + ' + ' + offset + ' -> ' + (dicedata[1] + offset)
     }
     else{
         if(notalldigit(dices) || notalldigit(faces)) return
 
         let dicedata = dice(dices, faces)
-        reply = str + ' : \n[ ' + dicedata[0].toString() + ' ] -> ' + dicedata[1]
+        if(dices < 50)reply = str + ' :\n[ ' + dicedata[0].toString() + ' ] -> ' + dicedata[1]
+        else reply = str + ' : ' + dicedata[1]
     }
     e.reply(reply)
 }
