@@ -27,7 +27,17 @@ module.exports = (e) => {
 
     let pat = faces.indexOf('+')
     let reply = ""
-    if(pat !== -1){
+    
+    if(parseInt(faces) === 1){
+        reply = "I think you know the answer."
+    }
+    else if(parseInt(faces) > 2147483647){
+        reply = "There are not such big dice."
+    }
+    else if(parseInt(faces) * dices > 1000000000000000000){
+        reply = "Maybe you need a big range random generator."
+    }
+    else if(pat !== -1){
         let offset = faces.substr(pat+1, faces.length)
         faces = faces.substr(0, pat)
 
